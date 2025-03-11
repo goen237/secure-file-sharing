@@ -9,26 +9,51 @@ on:
       - main
 
 jobs:
-  build_and_test:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    env:
+      MONGO_URL: mongodb+srv://goerresvalerenintidemkemlikeu:CGxLhbHBNtqADug3@cluster.27xqb.mongodb.net/
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        . venv/bin/activate
+        pip install -r backend/requirements.txt
+
+    - name: Run unit tests
+      run: |
+        . venv/bin/activate
+        pytest
+
+  docker_integration:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository klonen
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Docker installieren
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
+    - name: Build & Start Docker Containers
+      run: docker-compose up -d --build
 
-      - name: Docker-Compose starten
-        run: docker-compose up -d --build
+    - name: Run integration tests in Docker
+      run: docker exec $(docker ps -q -f name=backend) pytest integration_tests/
 
-      - name: Warten auf Container-Start
-        run: sleep 10
-
-      - name: Backend-Tests ausführen
-        run: docker exec $(docker ps -q -f name=backend) pytest -v
-
-      - name: Container stoppen
-        run: docker-compose down
+    - name: Stop Docker containers
+      run: docker-compose down

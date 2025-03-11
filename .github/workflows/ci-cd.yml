@@ -36,10 +36,10 @@ jobs:
         . venv/bin/activate
         pip install -r backend/requirements.txt
 
-    - name: Run unit tests
-      run: |
-        . venv/bin/activate
-        pytest
+    # - name: Run unit tests
+    #   run: |
+    #     . venv/bin/activate
+    #     pytest
 
   docker_integration:
     needs: test

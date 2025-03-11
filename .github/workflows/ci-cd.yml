@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository klonen
+        uses: actions/checkout@v3
+
+      - name: Docker installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      - name: Docker-Compose starten
+        run: docker-compose up -d --build
+
+      - name: Warten auf Container-Start
+        run: sleep 10
+
+      - name: Backend-Tests ausführen
+        run: docker exec $(docker ps -q -f name=backend) pytest -v
+
+      - name: Container stoppen
+        run: docker-compose down

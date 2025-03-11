@@ -10,20 +10,20 @@ services:
     environment:
       MONGO_URL: mongodb+srv://goerresvalerenintidemkemlikeu:CGxLhbHBNtqADug3@cluster.27xqb.mongodb.net/
 
-frontend:
+  frontend:
     build: ./frontend
     ports:
       - "80:80"
     depends_on:
       - backend
 
-mongodb:
-  image: mongo:latest
-  restart: always
-  ports:
-    - "27017:27017"
-  volumes:
-    - mongodb:/data/db
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
 
 volumes:
   mongo_data:

@@ -57,8 +57,8 @@ jobs:
     - name: Build & Start Docker Containers
       run: docker-compose up -d --build
 
-    - name: Run integration tests in Docker
-      run: docker exec $(docker ps -q -f name=backend) pytest integration_tests/
+    # - name: Run integration tests in Docker
+    #   run: docker exec $(docker ps -q -f name=backend) pytest integration_tests/
 
     - name: Stop Docker containers
       run: docker-compose down

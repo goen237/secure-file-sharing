@@ -35,3 +35,29 @@ def get_file(filename: str, username: str):
         }
     )
     return file
+
+def delete_file(filename: str, username: str):
+    result = files.delete_one(
+        {
+            "filename": filename,
+            "owner": username
+        }
+    )
+    if result.deleted_count == 0:
+        raise Exception("Datei nicht gefunden")
+    print(f"✅ Datei-{filename} erfolgreich gelöscht")
+
+def save_user(username, password):
+    users.insert_one({
+        "username": username,
+        "password": password,
+        "role": "admin" if username == "admin" else "user"
+    })
+    print(f"✅ Nutzer-{username} erfolgreich registriert")
+
+def get_user(username):
+    user = users.find_one({"username": username})
+    return user
+
+def all_users():
+    return users.find()

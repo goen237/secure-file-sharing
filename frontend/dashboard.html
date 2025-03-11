@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure File Sharing - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 id="hallo"></h1>
+            <button id="logout-button">Logout</button>
+            <button type="submit" id="change-password-button">Change Password</button>
+        </header>
+        <main>
+            <section>
+                <h2>Secure File Sharing</h2>
+                <form id="upload-form" class="form">
+                    <div class="input-field">
+                        <input type="file" id="file" required>
+                    </div>
+                    <button type="submit">Upload</button>
+                </form>
+                <form id="download-form" class="form">
+                    <div class="input-field">
+                        <input type="text" id="filename" required>
+                        <label>Enter filename</label>
+                    </div>
+                    <button type="submit">Download</button>
+                </form>
+            </section>
+            <section class="file-management">
+                <h2>Files</h2>
+                <table id="file-table-user">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- File rows will be populated here -->
+                    </tbody>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
